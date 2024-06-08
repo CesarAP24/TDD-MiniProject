@@ -120,5 +120,5 @@ def test_nothing():
     data = {"coords1": {"latitude": 34.0522, "longitude": -118.2437}}
     something = client.post("/get_distance", json=data)
 
-    #this does not have black formatting
+    # this does not have black formatting
     assert something.status_code == 422
