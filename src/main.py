@@ -8,6 +8,7 @@ app = FastAPI()
 # Models -------------------------------------------------------------------
 # ==========================================================================
 
+
 class Coordinates(BaseModel):
     """
     Modelo de datos para representar coordenadas geográficas.
@@ -16,12 +17,14 @@ class Coordinates(BaseModel):
         latitude (float): La latitud de las coordenadas.
         longitude (float): La longitud de las coordenadas.
     """
+
     latitude: float
     longitude: float
 
 
 # Endpoints ----------------------------------------------------------------
 # ==========================================================================
+
 
 @app.get("/get_coordinates")
 def get_coordinates(city: str):
@@ -37,11 +40,13 @@ def get_coordinates(city: str):
     Raises:
         HTTPException: Si la ciudad no se encuentra o hay un error en la API.
     """
-    response = requests.get(f"https://nominatim.openstreetmap.org/search?q={city}&format=json")
-    
+    response = requests.get(
+        f"https://nominatim.openstreetmap.org/search?q={city}&format=json"
+    )
+
     if response.status_code != 200 or not response.json():
         raise HTTPException(status_code=404, detail="City not found or API error")
-    
+
     data = response.json()[0]
     return {"latitude": float(data["lat"]), "longitude": float(data["lon"])}
 
@@ -68,9 +73,12 @@ def get_distance(coords1: Coordinates, coords2: Coordinates):
 # Functions ----------------------------------------------------------------
 # ==========================================================================
 
-def calculate_haversine_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+
+def calculate_haversine_distance(
+    lat1: float, lon1: float, lat2: float, lon2: float
+) -> float:
     """
-    Calcula la distancia en kilómetros entre dos puntos geográficos en la superficie de la Tierra 
+    Calcula la distancia en kilómetros entre dos puntos geográficos en la superficie de la Tierra
     utilizando la fórmula de Haversine.
 
     Args:
@@ -92,7 +100,7 @@ def calculate_haversine_distance(lat1: float, lon1: float, lat2: float, lon2: fl
     dlon = lon2_rad - lon1_rad
     dlat = lat2_rad - lat1_rad
 
-    a = sin(dlat / 2)**2 + cos(lat1_rad) * cos(lat2_rad) * sin(dlon / 2)**2
+    a = sin(dlat / 2) ** 2 + cos(lat1_rad) * cos(lat2_rad) * sin(dlon / 2) ** 2
     c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
     distance = R * c
@@ -101,4 +109,5 @@ def calculate_haversine_distance(lat1: float, lon1: float, lat2: float, lon2: fl
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8000)
