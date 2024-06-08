@@ -48,6 +48,12 @@ def test_endpoint_returns_something():
     response = client.get("/get_coordinates?city=Lima,Peru")
     assert response.json() != {}
 
+    response = client.post("/get_distance", json={
+        "coords1": {"latitude": 34.0522, "longitude": -118.2437},
+        "coords2": {"latitude": 36.1699, "longitude": -115.1398}
+    })
+    assert response.json() != {}
+
     
 # =========================================================================
 

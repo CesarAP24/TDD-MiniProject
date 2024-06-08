@@ -1,0 +1,11 @@
+# CesarAP24 es propietario de todo
+/ @CesarAP24
+
+# CdeCasurpie es el documentador
+/docs @CdeCasurpie
+
+# CesarAP24 es el que hace la app
+/src @CesarAP24
+
+# Ambos hacen los tests
+/tests @CdeCasurpie @CesarAP24
